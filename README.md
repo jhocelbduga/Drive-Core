@@ -2,6 +2,12 @@
 
 A responsive automotive storefront and member garage built with HTML, CSS and vanilla JavaScript.
 
+## Enterprise platform foundation
+
+The separate [enterprise workspace](enterprise/README.md) adds .NET 10 microservices, PostgreSQL/RabbitMQ, external OIDC, a Next.js command center, container definitions and Azure/Kubernetes deployment baselines. It implements a merchandise inventory/reservation/order vertical slice, not all 18 enterprise domains. See its [architecture](enterprise/ARCHITECTURE.md) and [operations runbook](enterprise/OPERATIONS.md) for scope, setup and remaining production acceptance gates.
+
+The existing storefront, owner demo and Node/SQLite Hub Administration are unchanged. Enterprise services are not hosted by GitHub Pages, and no enterprise cloud deployment has been created.
+
 ## Pages
 
 - [Storefront](index.html): categories, product search and a shared saved cart.

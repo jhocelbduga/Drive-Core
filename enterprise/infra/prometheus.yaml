@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: drivecore-domains
+    metrics_path: /metrics
+    static_configs:
+      - targets: ["hubs:8080", "catalog:8080", "inventory:8080", "orders:8080", "operations:8080", "gateway:8080"]

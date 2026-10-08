@@ -1,0 +1,31 @@
+{
+  "realm": "drivecore",
+  "enabled": true,
+  "registrationAllowed": false,
+  "resetPasswordAllowed": false,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "roles": { "realm": [
+    {"name":"Customer"}, {"name":"Sales Clerk"}, {"name":"Cashier"}, {"name":"Stock Custodian"},
+    {"name":"Inventory Controller"}, {"name":"Service Advisor"}, {"name":"Service Technician"},
+    {"name":"Hub Supervisor"}, {"name":"Hub Manager"}, {"name":"Regional Manager"},
+    {"name":"Corporate Administrator"}, {"name":"Hub Owner"}, {"name":"Service Provider"}, {"name":"Product Owner"}
+  ]},
+  "clients": [{
+    "clientId": "drivecore-web",
+    "enabled": true,
+    "publicClient": false,
+    "standardFlowEnabled": true,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "redirectUris": ["http://localhost:3000/auth/callback"],
+    "webOrigins": ["http://localhost:3000"],
+    "attributes": {"pkce.code.challenge.method":"S256"},
+    "protocolMappers": [
+      {"name":"tenant","protocol":"openid-connect","protocolMapper":"oidc-usermodel-attribute-mapper","config":{"user.attribute":"tenant_id","claim.name":"tenant_id","jsonType.label":"String","id.token.claim":"true","access.token.claim":"true"}},
+      {"name":"hubs","protocol":"openid-connect","protocolMapper":"oidc-usermodel-attribute-mapper","config":{"user.attribute":"hub_ids","claim.name":"hub_ids","jsonType.label":"String","multivalued":"true","id.token.claim":"true","access.token.claim":"true"}},
+      {"name":"roles","protocol":"openid-connect","protocolMapper":"oidc-usermodel-realm-role-mapper","config":{"claim.name":"roles","jsonType.label":"String","multivalued":"true","id.token.claim":"true","access.token.claim":"true"}},
+      {"name":"api-audience","protocol":"openid-connect","protocolMapper":"oidc-audience-mapper","config":{"included.custom.audience":"drivecore-api","access.token.claim":"true"}}
+    ]
+  }]
+}

@@ -10,3 +10,11 @@ hub-server/data/
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+**/bin/
+**/obj/
+**/.next/
+**/coverage/
+**/test-results/
+**/playwright-report/
+enterprise/.local/
+*.tsbuildinfo

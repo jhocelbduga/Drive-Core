@@ -1,0 +1,68 @@
+name: Enterprise validation
+on:
+  push:
+    paths: ["enterprise/**", ".github/workflows/enterprise.yml"]
+  pull_request:
+    paths: ["enterprise/**", ".github/workflows/enterprise.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: "10.0.x" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "24", cache: npm, cache-dependency-path: enterprise/web/package-lock.json }
+      - name: Compile and run domain tests
+        working-directory: enterprise
+        run: |
+          dotnet build DriveCore.slnx --configuration Release
+          dotnet test tests/Domain.Tests/Domain.Tests.csproj --configuration Release --no-build
+      - name: Validate frontend
+        working-directory: enterprise/web
+        env: { NEXT_TELEMETRY_DISABLED: "1" }
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Create ephemeral local-stack secrets
+        working-directory: enterprise
+        run: |
+          python - <<'PY'
+          import secrets, uuid
+          from pathlib import Path
+          lines = []
+          for line in Path(".env.example").read_text().splitlines():
+              if not line or line.startswith("#"):
+                  continue
+              name = line.split("=")[0]
+              value = str(uuid.uuid4()) if name == "LOCAL_TENANT_ID" else secrets.token_hex(32)
+              print(f"::add-mask::{value}")
+              lines.append(f"{name}={value}")
+          Path(".env").write_text("\n".join(lines) + "\n")
+          PY
+      - name: Start real integration dependencies
+        working-directory: enterprise
+        run: docker compose up -d --wait postgres rabbitmq
+      - name: Run PostgreSQL and broker integration tests
+        working-directory: enterprise
+        run: |
+          set -a
+          . ./.env
+          set +a
+          TEST_VHOST="drivecore-tests-$(python -c 'import uuid;print(uuid.uuid4().hex)')"
+          docker compose exec -T rabbitmq rabbitmqctl add_vhost "$TEST_VHOST"
+          docker compose exec -T rabbitmq rabbitmqctl set_permissions -p "$TEST_VHOST" drivecore ".*" ".*" ".*"
+          export DRIVECORE_TEST_DATABASE="Host=localhost;Port=5433;Database=drivecore_tests;Username=postgres;Password=$POSTGRES_PASSWORD"
+          export DRIVECORE_TEST_BROKER="amqp://drivecore:$RABBITMQ_PASSWORD@localhost:5673/$TEST_VHOST"
+          dotnet test tests/Integration.Tests/Integration.Tests.csproj --configuration Release --no-build
+      - name: Preserve legacy behavior
+        run: npm test
+      - name: Stop job-owned integration containers
+        if: always()
+        working-directory: enterprise
+        run: docker compose down

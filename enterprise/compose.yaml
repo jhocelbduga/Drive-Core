@@ -1,0 +1,141 @@
+name: drivecore-enterprise
+x-domain-environment: &domain-environment
+  ASPNETCORE_ENVIRONMENT: Development
+  Identity__Authority: http://keycloak:8080/realms/drivecore
+  Identity__Audience: drivecore-api
+  Messaging__Uri: amqp://drivecore:${RABBITMQ_PASSWORD:?Run Initialize-Local.ps1}@rabbitmq:5672
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4317
+  MIGRATE_ON_START: "true"
+x-domain: &domain
+  restart: unless-stopped
+  depends_on:
+    postgres: { condition: service_healthy }
+    rabbitmq: { condition: service_healthy }
+    keycloak: { condition: service_started }
+  networks: [platform]
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run Initialize-Local.ps1}
+      DB_HUBS_PASSWORD: ${DB_HUBS_PASSWORD:?Set DB_HUBS_PASSWORD}
+      DB_CATALOG_PASSWORD: ${DB_CATALOG_PASSWORD:?Set DB_CATALOG_PASSWORD}
+      DB_INVENTORY_PASSWORD: ${DB_INVENTORY_PASSWORD:?Set DB_INVENTORY_PASSWORD}
+      DB_ORDERS_PASSWORD: ${DB_ORDERS_PASSWORD:?Set DB_ORDERS_PASSWORD}
+      DB_OPERATIONS_PASSWORD: ${DB_OPERATIONS_PASSWORD:?Set DB_OPERATIONS_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres-init.sh:/docker-entrypoint-initdb.d/10-drivecore.sh:ro
+    ports: ["127.0.0.1:5433:5432"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 5s, timeout: 3s, retries: 20 }
+    networks: [platform]
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: drivecore
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD}
+    ports: ["127.0.0.1:5673:5672", "127.0.0.1:15673:15672"]
+    volumes: [rabbitmq-data:/var/lib/rabbitmq]
+    healthcheck: { test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"], interval: 5s, timeout: 5s, retries: 30 }
+    networks: [platform]
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD}"]
+    ports: ["127.0.0.1:6380:6379"]
+    volumes: [redis-data:/data]
+    networks: [platform]
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: local-admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:?Set KEYCLOAK_ADMIN_PASSWORD}
+      KC_HOSTNAME: http://localhost:8080
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+    ports: ["127.0.0.1:8080:8080"]
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./infra/keycloak-realm.json:/opt/keycloak/data/import/drivecore.json:ro
+    networks: [platform]
+  hubs:
+    <<: *domain
+    build: { context: ., args: { SERVICE: Hubs } }
+    environment:
+      <<: *domain-environment
+      Database__Connection: Host=postgres;Database=drivecore_hubs;Username=drivecore_hubs;Password=${DB_HUBS_PASSWORD}
+  catalog:
+    <<: *domain
+    build: { context: ., args: { SERVICE: Catalog } }
+    environment:
+      <<: *domain-environment
+      Database__Connection: Host=postgres;Database=drivecore_catalog;Username=drivecore_catalog;Password=${DB_CATALOG_PASSWORD}
+  inventory:
+    <<: *domain
+    build: { context: ., args: { SERVICE: Inventory } }
+    environment:
+      <<: *domain-environment
+      Database__Connection: Host=postgres;Database=drivecore_inventory;Username=drivecore_inventory;Password=${DB_INVENTORY_PASSWORD}
+  orders:
+    <<: *domain
+    build: { context: ., args: { SERVICE: Orders } }
+    environment:
+      <<: *domain-environment
+      Database__Connection: Host=postgres;Database=drivecore_orders;Username=drivecore_orders;Password=${DB_ORDERS_PASSWORD}
+      Domains__Catalog: http://catalog:8080
+  operations:
+    <<: *domain
+    build: { context: ., args: { SERVICE: Operations } }
+    environment:
+      <<: *domain-environment
+      Database__Connection: Host=postgres;Database=drivecore_operations;Username=drivecore_operations;Password=${DB_OPERATIONS_PASSWORD}
+  gateway:
+    build: { context: ., args: { SERVICE: Gateway } }
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Identity__Authority: http://keycloak:8080/realms/drivecore
+      Identity__Audience: drivecore-api
+      Gateway__Hubs: http://hubs:8080
+      Gateway__Catalog: http://catalog:8080
+      Gateway__Inventory: http://inventory:8080
+      Gateway__Orders: http://orders:8080
+      Gateway__Operations: http://operations:8080
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel:4317
+    ports: ["127.0.0.1:8090:8080"]
+    depends_on: [hubs, catalog, inventory, orders, operations]
+    networks: [platform]
+  web:
+    profiles: [web]
+    build: { context: ./web }
+    environment:
+      APP_URL: http://localhost:3000
+      ALLOW_LOCAL_HTTP: "true"
+      OIDC_ISSUER: http://localhost:8080/realms/drivecore
+      OIDC_INTERNAL_ORIGIN: http://keycloak:8080
+      OIDC_CLIENT_ID: drivecore-web
+      OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET:?Set OIDC_CLIENT_SECRET}
+      SESSION_PASSWORD: ${SESSION_PASSWORD:?Set SESSION_PASSWORD}
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+      GATEWAY_URL: http://gateway:8080
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on: [gateway, redis, keycloak]
+    networks: [platform]
+  otel:
+    image: otel/opentelemetry-collector-contrib:0.151.0
+    command: ["--config=/etc/otel/config.yaml"]
+    volumes: ["./infra/otel.yaml:/etc/otel/config.yaml:ro"]
+    networks: [platform]
+  prometheus:
+    image: prom/prometheus:v3.11.0
+    volumes: ["./infra/prometheus.yaml:/etc/prometheus/prometheus.yml:ro", "prometheus-data:/prometheus"]
+    ports: ["127.0.0.1:9090:9090"]
+    networks: [platform]
+networks:
+  platform:
+volumes:
+  postgres-data:
+  rabbitmq-data:
+  redis-data:
+  keycloak-data:
+  prometheus-data:
