@@ -1,6 +1,22 @@
 # DriveCore
 
-A responsive automotive storefront and member garage built with HTML, CSS and vanilla JavaScript.
+Drive Core is an automotive commerce and service platform with a responsive storefront/member demo, a Node.js/SQLite staff administration application and an independent .NET/Next.js enterprise foundation.
+
+## Documentation
+
+| Guide | Contents |
+|---|---|
+| [Enterprise README](enterprise/README.md) | Implemented features, prerequisites, local setup, authorization and verified delivery status |
+| [Architecture diagram and description](enterprise/ARCHITECTURE.md) | System boundaries, request/event flows, data ownership and all 18 domain delivery statuses |
+| [API documentation](enterprise/API.md) | Implemented REST/GraphQL routes, request/response contracts, permissions and errors |
+| [Usage examples](enterprise/EXAMPLES.md) | Member demo, staff application and enterprise merchandise walkthroughs |
+| [Operations runbook](enterprise/OPERATIONS.md) | Container/cloud deployment, monitoring, recovery and capacity acceptance gates |
+
+**Live static demo:** https://jhocelbduga.github.io/Drive-Core/
+
+**Source repository:** https://github.com/jhocelbduga/Drive-Core
+
+The enterprise API documentation describes the separate microservices implementation, not the legacy Node/SQLite API. GitHub Pages hosts only the public static application; it does not run either backend.
 
 ## Enterprise platform foundation
 

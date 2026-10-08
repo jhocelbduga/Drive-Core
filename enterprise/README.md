@@ -2,6 +2,13 @@
 
 This is an **independent production-oriented foundation and merchandise vertical slice**, not a completed implementation of all 18 domains or a certified enterprise deployment. The existing HTML storefront, member demo, owner demo and Node/SQLite Hub Administration remain unchanged.
 
+## Documentation
+
+- [Architecture diagram and description](ARCHITECTURE.md): topology, trust boundaries, data ownership, event flows and roadmap.
+- [API reference](API.md): implemented REST/GraphQL contracts, role/scope requirements, versions and error handling.
+- [Usage examples](EXAMPLES.md): browser workflows and authenticated merchandise API walkthrough.
+- [Operations runbook](OPERATIONS.md): infrastructure, rollout, monitoring, recovery and unverified acceptance gates.
+
 ## Implemented scope
 
 - .NET 10 LTS services: Hubs, Catalog, Inventory, Orders, Operations and an authenticated REST/GraphQL Gateway.

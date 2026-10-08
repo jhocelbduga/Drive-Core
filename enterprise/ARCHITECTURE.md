@@ -2,6 +2,8 @@
 
 ## Topology
 
+The diagram below represents the enterprise foundation. Azure edge/ingress and cloud hosting are proposed deployment components, not currently provisioned services. The existing static storefront/member/owner demos and Node/SQLite staff application sit outside this topology and do not share its databases.
+
 ```text
 Customers / staff / corporate console
         |
@@ -28,6 +30,62 @@ Customers / staff / corporate console
 ```
 
 Service-owned databases/users prevent cross-domain writes. The local stack shares one PostgreSQL server for convenience, but not database credentials. Cloud deployment can independently isolate/scale servers, retain a managed RabbitMQ cluster and managed Redis. No service reads another service's tables. Request-specific quotes are synchronous; lifecycle propagation is asynchronous.
+
+### Diagram description
+
+Read the diagram from top to bottom:
+
+1. **Users and edge:** customers, employees and corporate users enter the Next.js console through TLS ingress. A future Azure edge/WAF layer protects public traffic. The default production template exposes the web application, not the domain services or metrics.
+2. **Identity boundary:** the browser redirects to an external OIDC provider for sign-in. The Next.js backend completes authorization code + PKCE with state/nonce verification. Authentication, SSO and MFA configuration belong to the provider; this repository does not implement a password database for enterprise users.
+3. **Session boundary:** the browser receives an encrypted HTTP-only cookie holding an opaque session ID. Access/refresh tokens are encrypted in Redis. The BFF retrieves/refreshes them server-side and forwards the access token; it never returns bearer tokens to browser JavaScript.
+4. **API boundary:** Gateway forwards only declared REST routes and exposes a limited `national` GraphQL query. Gateway and domain services validate JWT issuer/audience, and domain authorization derives tenant, responsibility-based roles and assigned hubs from trusted claims.
+5. **Domain boundary:** Hubs owns facilities; Catalog owns product/pricing/quotes; Inventory owns balances/holds; Orders owns the merchandise lifecycle; Operations owns read projections. Each has its own PostgreSQL database/user. The only synchronous business dependency shown is Orders requesting an authoritative Catalog quote.
+6. **Messaging boundary:** writes and outgoing events commit together through a transactional outbox. RabbitMQ routes events to durable domain queues. Consumers persist to inboxes before acknowledging deliveries, then commit handler changes and processed state together. Events are at least once, not magically exactly once.
+7. **Read-model boundary:** Operations incrementally aggregates hub inventory and completed merchandise sales. The dashboard is eventually consistent and shows timestamps. A command response does not imply every projection has already updated.
+8. **Future contexts:** service work, queues, bookings, workforce, procurement, finance, notifications, reports and trained AI are planned event/API consumers, not active implementations in this diagram.
+
+**Arrow semantics:** vertical/browser/API connections are HTTP request/response; the OIDC connection includes browser redirects and server-side token/discovery calls; Redis/PostgreSQL connections are server-side persistence; outbox/broker/inbox paths are asynchronous event delivery. All domain paths retain tenant identity. Production TLS/private networking requirements are described in the [operations runbook](OPERATIONS.md).
+
+### Order sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant BFF as Next.js BFF
+    participant Gateway
+    participant Orders
+    participant Catalog
+    participant Broker as RabbitMQ
+    participant Inventory
+    participant Operations
+    Browser->>BFF: POST /api/orders (session cookie, idempotency key)
+    BFF->>Gateway: Forward request with server-held bearer token
+    Gateway->>Orders: Create order
+    Orders->>Catalog: Authoritative quote
+    Catalog-->>Orders: Lines, total, currency
+    Note over Orders: Commit PendingReservation + outbox
+    Orders-->>Browser: Response via Gateway/BFF
+    Orders->>Broker: OrderCreated (outbox publisher)
+    Broker->>Inventory: Durable inbox delivery
+    Note over Inventory: Reserve all lines or none
+    Inventory->>Broker: InventoryReserved or rejection
+    Broker->>Orders: Update order state
+    Browser->>BFF: Authorized cashier records verified settlement
+    BFF->>Gateway: POST /api/orders/{id}/settle
+    Gateway->>Orders: Validate amount, currency, version and role
+    Orders->>Broker: ReservationCommitRequested
+    Broker->>Inventory: Commit held stock
+    Inventory->>Broker: InventoryCommitted
+    Broker->>Orders: Complete order
+    Orders->>Broker: OrderCompleted
+    Broker->>Operations: Deduplicated revenue fact
+    Browser->>BFF: GET /api/national
+    BFF->>Gateway: Authenticated projection request
+    Gateway->>Operations: Read tenant/hub-scoped snapshot
+    Operations-->>Browser: Snapshot via Gateway/BFF
+```
+
+This diagram shows the successful path. Rejection, cancellation, expiry and paid-but-uncommitted reconciliation states are described below. No payment provider is contacted by the settlement endpoint.
 
 ## All 18 bounded contexts
 
