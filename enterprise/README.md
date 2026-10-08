@@ -108,12 +108,13 @@ Set-Location ..
 
 The integration command requires running local PostgreSQL/RabbitMQ and the dedicated `drivecore_tests` database. It **fails**, rather than silently skipping, if dependencies are absent. Tests use a generated schema that is removed afterwards; they refuse to target any other database. The runner creates and removes its own generated RabbitMQ vhost so test events cannot pollute the application queues. Broker tests refuse an application/default vhost. They cover durable concurrent idempotency, tenant boundaries, exact no-oversell balances, cancellation-before-create, repeat commits, expired reservations, stale/duplicate projections, scoped pagination and real durable broker delivery.
 
-The separate `enterprise.yml` workflow starts real dependencies for CI tests. It has been written, not executed on GitHub during this task; source has not been pushed.
+The separate `enterprise.yml` workflow starts real dependencies for CI tests. On October 8, 2026, [GitHub Actions run 37781218675](https://github.com/jhocelbduga/Drive-Core/actions/runs/37781218675) passed the service/domain builds, web build/tests, all seven real PostgreSQL/RabbitMQ integration tests and all 52 legacy tests.
 
 ### Validation performed in this environment
 
 - All .NET projects, including integration-test source, compile with warnings treated as errors.
 - 17 domain tests and 5 web policy/model tests passed.
+- All 7 dependency-backed integration tests passed on GitHub's Linux runner with real PostgreSQL/RabbitMQ and isolated test data.
 - Next.js production build passed.
 - Kubernetes renderer and local PowerShell scripts were syntax checked; generated object relationships checked locally.
 - Runtime/CI YAML parsed successfully; independent domain database settings checked.
@@ -122,6 +123,8 @@ The separate `enterprise.yml` workflow starts real dependencies for CI tests. It
 - All 52 existing legacy tests passed.
 - Six logged-out viewport/theme checks and 30 operational-view viewport/theme checks passed without horizontal overflow. Operational UI tests used temporary browser-only fixtures with 120 facilities; they did not authenticate against OIDC or prove backend capacity. Fixtures were removed after validation.
 
-Docker Desktop is unavailable here. **Compose builds/startup, full OIDC browser login, real database/broker integration execution, Kubernetes server-side admission and Azure deployment have not been verified.** No 10,000-user, million-record, 99.9% availability or disaster-recovery achievement is claimed.
+Docker Desktop is unavailable locally. CI verified the PostgreSQL/RabbitMQ Compose dependencies and real integration tests; **application container builds/full stack startup, full OIDC browser login, Kubernetes server-side admission and Azure deployment remain unverified.** No 10,000-user, million-record, 99.9% availability or disaster-recovery achievement is claimed.
+
+All enterprise source was published to GitHub, and the existing static site was redeployed to [GitHub Pages](https://jhocelbduga.github.io/Drive-Core/). At the user's request, no paid hosting was created and the enterprise runtime itself remains undeployed.
 
 See [architecture](ARCHITECTURE.md) for all 18 bounded contexts, consistency and scaling decisions, and [operations](OPERATIONS.md) for deployment, event recovery and acceptance gates.
