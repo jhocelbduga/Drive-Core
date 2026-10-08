@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#092e5b">
+    <meta name="description" content="Find quality car parts, accessories and care essentials at DriveCore. Shop trusted brands and get your car ready for every journey.">
+    <title>DriveCore | Car Parts, Accessories &amp; Care</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="drivecore-store.js" defer></script>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="announcement-bar">
+        <p>Ready for the road? <strong>Find everything your car needs.</strong></p>
+        <a href="#featured">Explore the range <span aria-hidden="true">→</span></a>
+    </div>
+
+    <header class="site-header">
+        <div class="header-main">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+                <span class="menu-icon" aria-hidden="true">☰</span><span class="menu-label">Menu</span>
+            </button>
+            <a class="brand" href="index.html" aria-label="DriveCore home">
+                <img src="images/DriveCoreLogo1.png" alt="DriveCore — parts, accessories and services">
+            </a>
+            <form class="search-form" role="search">
+                <label class="visually-hidden" for="site-search">Search car parts and accessories</label>
+                <input id="site-search" type="search" placeholder="Search parts, accessories and more..." autocomplete="off">
+                <button type="submit" aria-label="Search">⌕</button>
+            </form>
+            <div class="header-actions">
+                <div class="account-welcome">
+                    <span>Welcome</span>
+                    <div><a href="SignInForm.html">Sign in</a><span aria-hidden="true">/</span><a href="SignInForm.html#register">Register</a></div>
+                </div>
+                <button class="header-action store-finder-trigger" type="button" aria-haspopup="dialog" aria-controls="store-finder-dialog">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+                    <span>Stores</span>
+                </button>
+                <a class="header-action" href="userMemberPage.html"><span aria-hidden="true">♙</span><span>Account</span></a>
+                <a class="header-action basket-link" href="CartItem.html"><span aria-hidden="true">♧</span><span>Basket <b class="basket-count" aria-live="polite">0</b></span></a>
+            </div>
+        </div>
+        <nav class="primary-navigation" id="primary-navigation" aria-label="Main navigation">
+            <a href="#featured">Car Parts</a>
+            <a href="#featured-categories">Car Care</a>
+            <a href="#featured-categories">Accessories</a>
+            <a href="#featured-categories">Tools &amp; DIY</a>
+            <a href="#deals">Offers</a>
+            <a href="#about">About DriveCore</a>
+            <a href="ownerDashboard.html">Owner dashboard</a>
+            <a href="hubAdministration.html">Hub administration</a>
+        </nav>
+    </header>
+
+    <dialog class="store-dialog" id="store-finder-dialog" aria-labelledby="store-dialog-title">
+        <form class="store-dialog-content" id="store-search-form">
+            <button class="store-dialog-close" type="button" aria-label="Close store finder">×</button>
+            <p class="eyebrow">FIND A STORE</p>
+            <h2 id="store-dialog-title">Looking for a store?</h2>
+            <p>Enter a town or postcode to search Maps for nearby automotive parts retailers.</p>
+            <label for="store-location">Town or postcode</label>
+            <input id="store-location" name="location" type="search" placeholder="e.g. London or SW1A 1AA" autocomplete="postal-code" required>
+            <button class="store-search-button" type="submit">Search nearby stores <span aria-hidden="true">→</span></button>
+            <small>This search opens Google Maps. DriveCore store locations are not available in this demo.</small>
+        </form>
+    </dialog>
+
+    <p class="cart-feedback" id="cart-feedback" role="status" hidden></p>
+    <main id="main-content">
+        <section class="service-strip" aria-label="Shopping benefits">
+            <div><span aria-hidden="true">↗</span><p><strong>Parts for every journey</strong><small>Quality you can count on</small></p></div>
+            <div><span aria-hidden="true">▣</span><p><strong>Fast, reliable delivery</strong><small>Straight to your door</small></p></div>
+            <div><span aria-hidden="true">✓</span><p><strong>Trusted by drivers</strong><small>Friendly expert support</small></p></div>
+            <div><span aria-hidden="true">★</span><p><strong>Great value, always</strong><small>Top brands. Fair prices.</small></p></div>
+        </section>
+
+        <section class="quick-categories" aria-label="Popular categories">
+            <a href="#featured">Engine oil</a><a href="#featured">Brake parts</a><a href="#featured">Wipers</a>
+            <a href="#featured">Batteries</a><a href="#featured">Bulbs</a><a href="#featured-categories">Car cleaning</a>
+            <a href="#featured-categories">Tools</a>
+        </section>
+
+        <section class="vehicle-finder" aria-labelledby="finder-title">
+            <div class="finder-copy">
+                <p class="eyebrow">THE RIGHT PART, FIRST TIME</p>
+                <h1 id="finder-title">Find parts for <span>your car</span></h1>
+                <p>Enter your registration to find parts and accessories that fit your vehicle.</p>
+            </div>
+            <form class="plate-form" id="plate-form">
+                <label class="visually-hidden" for="registration">Vehicle registration</label>
+                <div class="plate-entry">
+                    <span aria-hidden="true">GB</span>
+                    <input id="registration" name="registration" type="text" placeholder="YOUR REG" maxlength="8" autocomplete="off" required>
+                    <button type="submit">Find my car <span aria-hidden="true">→</span></button>
+                </div>
+                <p class="form-note" id="plate-message" aria-live="polite">Not sure? <a href="#vehicle-select">Choose your vehicle instead</a></p>
+            </form>
+            <form class="vehicle-select" id="vehicle-select">
+                <label for="vehicle-make">Or select your vehicle</label>
+                <select id="vehicle-make" name="make" required>
+                    <option value="">Make</option><option>Ford</option><option>Vauxhall</option><option>Volkswagen</option><option>Toyota</option><option>BMW</option><option>Audi</option>
+                </select>
+                <select name="model" aria-label="Model" required>
+                    <option value="">Model</option><option>Focus</option><option>Corsa</option><option>Golf</option><option>Yaris</option><option>3 Series</option><option>A3</option>
+                </select>
+                <select name="year" aria-label="Year" required>
+                    <option value="">Year</option><option>2024</option><option>2022</option><option>2020</option><option>2018</option><option>2016</option><option>2014</option>
+                </select>
+                <button type="submit" aria-label="Find parts by vehicle">Go</button>
+                <p class="form-note vehicle-message" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="hero-banner" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <p class="eyebrow">DRIVECORE • BUILT FOR THE ROAD</p>
+                <h2 id="hero-title">Your drive.<br><span>Our core.</span></h2>
+                <p>Smart essentials, trusted parts and the little upgrades that make every mile better.</p>
+                <a class="button button-light" href="#featured">Shop the collection <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+                <div class="hero-wheel"><div></div></div>
+                <div class="hero-mark">DC<span>DRIVECORE</span></div>
+            </div>
+            <div class="hero-pagination" aria-hidden="true"><span class="is-active"></span><span></span><span></span></div>
+        </section>
+
+        <section class="category-section content-section" id="featured-categories">
+            <div class="section-heading">
+                <div><p class="eyebrow">MADE FOR YOUR MOTOR</p><h2>Shop by category</h2></div>
+                <a class="text-link" href="#featured">View all categories <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="category-grid">
+                <a class="category-card category-blue" href="#featured"><span class="category-icon" aria-hidden="true">◉</span><strong>Car parts</strong><small>Keep every system running</small><span class="card-arrow" aria-hidden="true">↗</span></a>
+                <a class="category-card category-gold" href="#featured"><span class="category-icon" aria-hidden="true">✦</span><strong>Car care</strong><small>Clean, protect and shine</small><span class="card-arrow" aria-hidden="true">↗</span></a>
+                <a class="category-card category-slate" href="#featured"><span class="category-icon" aria-hidden="true">⌁</span><strong>Accessories</strong><small>Make it yours</small><span class="card-arrow" aria-hidden="true">↗</span></a>
+                <a class="category-card category-green" href="#featured"><span class="category-icon" aria-hidden="true">⚒</span><strong>Tools &amp; DIY</strong><small>Ready for the next job</small><span class="card-arrow" aria-hidden="true">↗</span></a>
+            </div>
+        </section>
+
+        <section class="products-section content-section" id="featured">
+            <div class="section-heading">
+                <div><p class="eyebrow">DRIVER FAVOURITES</p><h2>Popular right now</h2></div>
+                <a class="text-link" href="#deals">Shop all products <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="search-feedback" id="search-feedback" aria-live="polite"></p>
+            <div class="product-grid">
+                <article class="product-card" data-search="drivecore 5w-30 engine oil fully synthetic motor oil"><div class="product-image oil"><span class="product-badge">BESTSELLER</span><span class="product-art" aria-hidden="true">5W<br><b>30</b></span></div><div class="product-info"><p class="product-type">DRIVECORE • ENGINE CARE</p><h3>5W-30 Fully Synthetic Engine Oil, 5L</h3><div class="product-rating" aria-label="Rated 5 out of 5">★★★★★ <span>(128)</span></div><div class="product-buy"><strong>£34.99</strong><button type="button" data-product="engine-oil">Add to basket</button></div></div></article>
+                <article class="product-card" data-search="drivecore premium screenwash carplan washer fluid wipers"><div class="product-image screenwash"><span class="product-art" aria-hidden="true">CLEAR<br><b>VIEW</b></span></div><div class="product-info"><p class="product-type">DRIVECORE • CAR CARE</p><h3>All-Season Screenwash, 5L</h3><div class="product-rating" aria-label="Rated 5 out of 5">★★★★★ <span>(86)</span></div><div class="product-buy"><strong>£7.49</strong><button type="button" data-product="screenwash">Add to basket</button></div></div></article>
+                <article class="product-card" data-search="drivecore wiper blades windscreen flat pair"><div class="product-image wipers"><span class="product-art" aria-hidden="true">WIPER<br><b>PRO</b></span></div><div class="product-info"><p class="product-type">DRIVECORE • VISIBILITY</p><h3>Premium Windscreen Wiper Blades</h3><div class="product-rating" aria-label="Rated 4.8 out of 5">★★★★★ <span>(74)</span></div><div class="product-buy"><strong>£18.99</strong><button type="button" data-product="wipers">Add to basket</button></div></div></article>
+                <article class="product-card" data-search="drivecore car cleaning detailing shampoo wash kit"><div class="product-image care"><span class="product-badge">DRIVER PICK</span><span class="product-art" aria-hidden="true">CORE<br><b>SHINE</b></span></div><div class="product-info"><p class="product-type">DRIVECORE • DETAILING</p><h3>Complete Car Care Wash Kit</h3><div class="product-rating" aria-label="Rated 5 out of 5">★★★★★ <span>(52)</span></div><div class="product-buy"><strong>£24.99</strong><button type="button" data-product="wash-kit">Add to basket</button></div></div></article>
+            </div>
+        </section>
+
+        <section class="deal-banner" id="deals">
+            <div><p class="eyebrow">A LITTLE EXTRA FOR YOUR JOURNEY</p><h2>Gear up for less.</h2><p>Discover quality essentials and fresh finds picked for life on the road.</p></div>
+            <a class="button button-blue" href="#featured">Explore this week’s picks <span aria-hidden="true">→</span></a>
+        </section>
+
+        <section class="about-section content-section" id="about">
+            <div class="about-emblem"><img src="images/DriveCoreLogo2.png" alt="" loading="lazy"></div>
+            <div><p class="eyebrow">YOUR DRIVE. OUR CORE.</p><h2>Good journeys start with the right gear.</h2><p>From everyday maintenance to the finishing touches, DriveCore brings dependable car parts and accessories together in one easy place. Find useful essentials, trusted quality and a team that cares about getting you back on the road.</p><a class="text-link" href="SignInForm.html">Join the DriveCore community <span aria-hidden="true">→</span></a></div>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="basket">
+        <div class="footer-main"><a class="footer-brand" href="index.html">DRIVECORE<span>PARTS • ACCESSORIES • SERVICES</span></a><p>Quality parts for every road ahead.</p><div class="footer-links"><a href="#featured">Shop car parts</a><a href="#featured-categories">Car care &amp; accessories</a><a href="SignInForm.html">Your account</a></div></div>
+        <div class="footer-bottom"><span>© 2025 DriveCore. Your drive, our core.</span><span>Drive safe. Drive smart.</span></div>
+    </footer>
+</body>
+</html>

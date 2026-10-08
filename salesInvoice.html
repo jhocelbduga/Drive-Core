@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#092e5b">
+    <title>Purchase Order Confirmation | DriveCore</title>
+    <link rel="stylesheet" href="member.css"><script src="drivecore-store.js" defer></script><script src="member.js" defer></script>
+</head>
+<body data-page="invoice">
+    <div id="member-shell"></div>
+    <main class="member-main" id="main-content">
+        <div class="page-heading"><div><p class="eyebrow">Online ordering / step 03</p><h1>Review your purchase order.</h1><p>A clear summary, before you take the next step.</p></div><a href="userMemberPage.html" class="button secondary">Back to my garage</a></div>
+        <div id="workflow-navigation"></div><div id="page-notice" class="notice" role="status" tabindex="-1" hidden></div>
+        <section class="panel">
+            <div class="panel-title"><h2>DriveCore · Order summary</h2><span class="badge">Demo · Not a tax invoice</span></div>
+            <div id="invoice-details"></div>
+            <form id="confirm-order-form" hidden><label class="checkbox-field"><input type="checkbox" name="acknowledge" required><span>I understand this is a local demo order, not a supplier-confirmed purchase. No payment or fulfilment will occur.</span></label><div class="actions"><button class="primary" type="submit">Confirm demo purchase order</button><a class="button secondary" href="CartItem.html">Back to cart</a></div></form>
+            <div id="invoice-actions" class="actions" hidden><a class="button" id="book-order-link" href="bookingservice.html">Book a service for this order</a><button class="secondary" id="print-invoice" type="button">Print summary</button></div>
+        </section>
+    </main>
+    <footer class="member-footer">DriveCore members · Your drive. Our core.</footer>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101820">
+    <title>DriveCore account</title>
+    <link rel="stylesheet" href="SignInForm.css">
+    <script src="SignInForm.js" defer></script>
+</head>
+<body>
+    <main class="account-page">
+        <a class="brand" href="index.html" aria-label="DriveCore home">
+            <img src="images/DriveCoreLogo2.png" alt="DriveCore">
+        </a>
+
+        <div class="account-card">
+            <div class="account-main">
+                <section class="account-panel" data-panel="signin" aria-labelledby="account-title">
+                    <p class="eyebrow">DRIVECORE MEMBERS</p>
+                    <h1 id="account-title" tabindex="-1">Welcome back</h1>
+                    <p class="intro">Sign in to your account to continue.</p>
+
+                    <form id="signin-form" class="account-form">
+                        <label for="signin-email">Email address</label>
+                        <input id="signin-email" name="email" type="email" autocomplete="email" required>
+
+                        <label for="signin-password">Password</label>
+                        <div class="password-control">
+                            <input id="signin-password" name="password" type="password" autocomplete="current-password" required>
+                            <button class="password-toggle" type="button" data-password-target="signin-password" aria-label="Show password" aria-pressed="false">Show</button>
+                        </div>
+
+                        <button class="text-button forgot-link" type="button" data-view="reset">Forgot your password?</button>
+                        <button class="primary-button" type="submit">Sign in</button>
+                        <p class="form-message" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <p class="switch-prompt">Not a member? <button class="text-button" type="button" data-view="register">Create an account</button></p>
+                </section>
+
+                <section class="account-panel" data-panel="reset" aria-labelledby="reset-title" hidden>
+                    <p class="eyebrow">ACCOUNT RECOVERY</p>
+                    <h1 id="reset-title" tabindex="-1">Reset your password</h1>
+                    <p class="intro">Enter your email address and we’ll send instructions to reset your password.</p>
+
+                    <form id="reset-form" class="account-form">
+                        <label for="reset-email">Email address</label>
+                        <input id="reset-email" name="email" type="email" autocomplete="email" required>
+                        <button class="primary-button" type="submit">Send reset instructions</button>
+                        <p class="form-message" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <p class="switch-prompt"><button class="text-button" type="button" data-view="signin">← Back to sign in</button></p>
+                </section>
+
+                <section class="account-panel" data-panel="register" aria-labelledby="register-title" hidden>
+                    <p class="eyebrow">JOIN DRIVECORE</p>
+                    <h1 id="register-title" tabindex="-1">Create your account</h1>
+                    <p class="intro">Join for free and get member perks every time you shop.</p>
+
+                    <form id="register-form" class="account-form">
+                        <div class="name-fields">
+                            <div>
+                                <label for="register-firstname">First name</label>
+                                <input id="register-firstname" name="firstname" type="text" autocomplete="given-name" required>
+                            </div>
+                            <div>
+                                <label for="register-lastname">Last name</label>
+                                <input id="register-lastname" name="lastname" type="text" autocomplete="family-name" required>
+                            </div>
+                        </div>
+
+                        <label for="register-email">Email address</label>
+                        <input id="register-email" name="email" type="email" autocomplete="email" required>
+
+                        <label for="register-password">Password</label>
+                        <div class="password-control">
+                            <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                            <button class="password-toggle" type="button" data-password-target="register-password" aria-label="Show password" aria-pressed="false">Show</button>
+                        </div>
+                        <p class="field-hint">Use at least 8 characters.</p>
+
+                        <label for="register-confirm-password">Confirm password</label>
+                        <div class="password-control">
+                            <input id="register-confirm-password" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" required>
+                            <button class="password-toggle" type="button" data-password-target="register-confirm-password" aria-label="Show password" aria-pressed="false">Show</button>
+                        </div>
+
+                        <button class="primary-button" type="submit">Create account</button>
+                        <p class="form-message" role="status" aria-live="polite"></p>
+                    </form>
+
+                    <p class="switch-prompt">Already a member? <button class="text-button" type="button" data-view="signin">Sign in</button></p>
+                </section>
+            </div>
+
+            <aside class="account-benefits" aria-label="DriveCore member benefits">
+                <div class="benefits-mark" aria-hidden="true">DC</div>
+                <p class="eyebrow">MORE FOR YOUR DRIVE</p>
+                <h2>Good things come with membership.</h2>
+                <p>Join the DriveCore community for free and get access to member perks when you shop.</p>
+                <ul>
+                    <li>Exclusive member discounts</li>
+                    <li>Reward points on purchases</li>
+                    <li>Member delivery benefits</li>
+                </ul>
+            </aside>
+        </div>
+
+        <p class="account-note">Account actions require a connected, secure service. This page is a front-end form only. <a href="userMemberPage.html">Preview the member garage</a> without signing in.</p>
+    </main>
+</body>
+</html>

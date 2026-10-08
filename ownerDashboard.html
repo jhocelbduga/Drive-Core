@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0c192b">
+    <meta name="description" content="DriveCore owner operations demo: sales, inventory, services, multi-branch analytics and business reporting.">
+    <title>Owner Command Centre | DriveCore</title>
+    <link rel="stylesheet" href="owner-dashboard.css">
+    <script src="owner-data.js" defer></script>
+    <script src="owner-export.js" defer></script>
+    <script src="owner-dashboard.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#dashboard-main">Skip to dashboard</a>
+    <aside class="sidebar" id="dashboard-navigation">
+        <a class="dashboard-brand" href="index.html">DRIVE<span>CORE</span><small>OWNER COMMAND CENTRE</small></a>
+        <div class="workspace-label"><span class="workspace-mark">DC</span><div><strong>DriveCore Operations</strong><small>Demonstration workspace</small></div></div>
+        <p class="nav-label">BUSINESS OVERVIEW</p>
+        <nav aria-label="Dashboard sections">
+            <a href="#executive" data-section="executive"><span aria-hidden="true">01</span>Executive overview</a>
+            <a href="#intelligence" data-section="intelligence"><span aria-hidden="true">02</span>Business intelligence</a>
+            <a href="#insights" data-section="insights"><span aria-hidden="true">03</span>AI insights <b>DEMO</b></a>
+            <a href="#inventory" data-section="inventory"><span aria-hidden="true">04</span>Inventory intelligence</a>
+            <a href="#sales" data-section="sales"><span aria-hidden="true">05</span>Sales analytics</a>
+            <a href="#services" data-section="services"><span aria-hidden="true">06</span>Service operations</a>
+            <a href="#branches" data-section="branches"><span aria-hidden="true">07</span>Branch network</a>
+            <a href="#financial" data-section="financial"><span aria-hidden="true">08</span>Financial health</a>
+            <a href="#reports" data-section="reports"><span aria-hidden="true">09</span>Reports &amp; exports</a>
+        </nav>
+        <div class="sidebar-bottom"><a href="hubAdministration.html">Hub administration ↗</a><a href="userMemberPage.html">Member garage ↗</a><a href="index.html">Back to storefront ↗</a><small>Local rules. Sample data.<br>No production access or AI calls.</small></div>
+    </aside>
+    <div class="dashboard-workspace">
+        <header class="topbar">
+            <button class="icon-button mobile-nav-toggle" id="nav-toggle" type="button" aria-label="Toggle dashboard navigation" aria-expanded="false" aria-controls="dashboard-navigation">☰</button>
+            <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-section">Executive overview</strong></div>
+            <div class="topbar-actions"><span class="live-label"><i></i>Simulated data</span><button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">Dark theme</button><span class="avatar" aria-hidden="true">DC</span></div>
+        </header>
+        <main id="dashboard-main" class="dashboard-main" tabindex="-1">
+            <div class="demo-banner"><strong>Interactive business demo</strong><span>Seeded transactions, simulated refresh, rule-based insights. Roles limit this UI only; all sample data remains public. Separate from unconfirmed member orders.</span></div>
+            <div class="page-heading">
+                <div><p class="eyebrow">YOUR BUSINESS. ONE CLEAR VIEW.</p><h1 id="section-title">Executive overview</h1><p id="section-description">Monitor performance, spot opportunities and keep every branch moving.</p></div>
+                <div class="heading-actions"><button class="button secondary" type="button" id="refresh-button">↻ Simulate update</button><button class="button" type="button" id="quick-export">Export CSV ↓</button></div>
+            </div>
+            <section class="filters" aria-label="Dashboard filters">
+                <div class="filter-field"><label for="role-filter">Demo role</label><select id="role-filter"><option value="product">Product Owner</option><option value="hub">Hub Owner · London</option><option value="branch">Branch Owner · North London</option><option value="provider">Service Provider · Alex, North London</option></select></div>
+                <div class="filter-field"><label for="branch-filter">Branch scope</label><select id="branch-filter"></select></div>
+                <div class="filter-field"><label for="period-filter">Reporting period</label><select id="period-filter"><option value="today">Today</option><option value="week">This week</option><option value="month">This month</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="year">This year</option><option value="365">Last 12 months</option></select></div>
+                <label class="live-switch"><input type="checkbox" id="auto-refresh">Auto simulation <small>Every 30 seconds</small></label>
+            </section>
+            <div class="scope-meta"><span id="scope-label"></span><span id="refresh-time"></span></div>
+            <p class="notification" id="dashboard-notice" role="status" hidden></p>
+            <div id="dashboard-content"></div>
+            <footer class="dashboard-footer"><span>DriveCore · Owner intelligence</span><span>All values in GBP. Demo amounts exclude VAT.</span><button type="button" class="text-button" id="reset-demo">Reset simulated changes</button></footer>
+        </main>
+    </div>
+    <div id="print-report" hidden></div>
+</body>
+</html>

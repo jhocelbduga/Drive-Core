@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c192b">
+  <title>Hub Administration | DriveCore</title>
+  <link rel="stylesheet" href="hub-admin.css">
+  <script src="hub-admin.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to operations</a>
+  <section id="login-panel" class="login-panel">
+    <a class="brand" href="index.html">DRIVE<span>CORE</span><small>HUB ADMINISTRATION</small></a>
+    <p class="eyebrow">YOUR TEAM. YOUR HUB. CONNECTED.</p>
+    <h1>Welcome to operations.</h1>
+    <p>Sign in with your assigned staff account. Operational access and approvals are enforced by the server.</p>
+    <form id="login-form">
+      <label>Email<input name="email" type="email" autocomplete="username" required maxlength="150"></label>
+      <label>Password<input name="password" type="password" autocomplete="current-password" required maxlength="200"></label>
+      <button type="submit">Sign in securely</button>
+    </form>
+    <p id="login-notice" role="alert"></p>
+    <div id="backend-help" hidden><strong>This page requires the Node.js application server.</strong><p>The static storefront and GitHub Pages cannot authenticate staff. Start the backend, then open <a href="http://127.0.0.1:8787/">the local Hub Administration application</a>. Hosting details are in the project README.</p></div>
+    <small>Separate from the member demo and owner sample analytics. Never enter payment card details.</small>
+  </section>
+  <div id="workspace" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">DRIVE<span>CORE</span><small>HUB ADMINISTRATION</small></a>
+      <div class="staff-card"><strong id="staff-name"></strong><small id="staff-role"></small></div>
+      <nav id="navigation" aria-label="Operational navigation"></nav>
+      <div class="sidebar-bottom"><a href="index.html">Storefront</a><a href="ownerDashboard.html">Owner analytics demo</a><button id="logout" class="secondary" type="button">Sign out</button></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <button id="menu-toggle" type="button" class="secondary" aria-expanded="false" aria-controls="sidebar">Menu</button>
+        <div><strong>Operations command centre</strong><small id="sync-status" role="status">Connecting</small></div>
+        <button id="theme-toggle" type="button" class="secondary">Dark theme</button>
+      </header>
+      <main id="main" tabindex="-1">
+        <div class="heading"><div><p class="eyebrow">BUILT FOR THE PEOPLE BEHIND EVERY DRIVE.</p><h1 id="page-title">Daily overview</h1><p id="page-description"></p></div><button id="refresh" type="button" class="secondary">Refresh records</button></div>
+        <div class="scope"><label>Working branch<select id="branch-select"></select></label><span>Server-authorized access • GBP excluding VAT • timestamps shown in your local time</span></div>
+        <p id="notice" class="notice" role="alert" hidden></p>
+        <div id="content"></div>
+        <footer>DriveCore Hub Operations · Persistent SQLite records · External payments, messaging and biometrics require integrations.</footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="action-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-heading"><h2 id="dialog-title"></h2><button id="close-dialog" class="secondary" type="button">Close</button></div>
+    <p id="dialog-description"></p>
+    <form id="action-form"></form>
+    <p id="form-error" role="alert"></p>
+  </dialog>
+  <dialog id="receipt-dialog" aria-labelledby="receipt-title">
+    <h2 id="receipt-title">DriveCore digital receipt</h2>
+    <div id="receipt-content"></div>
+    <div class="no-print"><button id="print-receipt" type="button">Print / Save PDF</button><button id="close-receipt" type="button" class="secondary">Close</button></div>
+  </dialog>
+</body>
+</html>

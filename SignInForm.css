@@ -1,0 +1,392 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #19232c;
+  background: #f2f4f6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --brand: #e31b36;
+  --ink: #18232d;
+  --muted: #68747e;
+  --line: #d9dfe4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.account-page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+
+.brand {
+  display: inline-flex;
+  margin-bottom: 24px;
+}
+
+.brand img {
+  display: block;
+  width: 116px;
+  height: 72px;
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.account-card {
+  display: grid;
+  width: min(920px, 100%);
+  min-height: 550px;
+  grid-template-areas: "main benefits";
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.9fr);
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid #e4e8eb;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(24 35 45 / 10%);
+}
+
+.account-main {
+  grid-area: main;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 60px);
+}
+
+.account-panel {
+  width: 100%;
+  max-width: 390px;
+  min-width: 0;
+}
+
+.account-panel[hidden] {
+  display: none;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--brand);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.intro {
+  margin: 12px 0 28px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-form label {
+  margin: 0 0 7px;
+  color: #273540;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.account-form input {
+  width: 100%;
+  min-height: 48px;
+  margin: 0 0 18px;
+  border: 1px solid #cbd3da;
+  border-radius: 6px;
+  outline: none;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.account-form input:focus {
+  border-color: #3d718f;
+  box-shadow: 0 0 0 3px rgb(61 113 143 / 15%);
+}
+
+.account-form input:user-invalid {
+  border-color: #c62828;
+}
+
+.password-control {
+  position: relative;
+}
+
+.password-control input {
+  padding-right: 64px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 58px;
+  height: 48px;
+  border: 0;
+  border-radius: 0 6px 6px 0;
+  color: #4c5a64;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.password-toggle:hover {
+  color: var(--brand);
+}
+
+.text-button {
+  width: fit-content;
+  border: 0;
+  padding: 0;
+  color: #a30e24;
+  background: transparent;
+  font-size: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.text-button:hover {
+  color: #d01831;
+}
+
+.forgot-link {
+  align-self: flex-end;
+  margin: -5px 0 20px;
+  font-size: 0.84rem;
+}
+
+.primary-button {
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 18px;
+  color: #fff;
+  background: var(--brand);
+  font-weight: 800;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.primary-button:hover {
+  background: #c9142d;
+  transform: translateY(-1px);
+}
+
+.primary-button:focus-visible,
+.text-button:focus-visible,
+.password-toggle:focus-visible {
+  outline: 3px solid rgb(227 27 54 / 32%);
+  outline-offset: 3px;
+}
+
+.switch-prompt {
+  margin: 23px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.switch-prompt .text-button {
+  margin-left: 3px;
+}
+
+.form-message {
+  margin: 12px 0 0;
+  color: #a30e24;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.form-message:empty {
+  display: none;
+}
+
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.name-fields > div {
+  min-width: 0;
+}
+
+.field-hint {
+  margin: -12px 0 18px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.account-benefits {
+  grid-area: benefits;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(30px, 4vw, 48px);
+  color: #fff;
+  background:
+    radial-gradient(circle at 95% 8%, rgb(255 255 255 / 10%), transparent 33%),
+    linear-gradient(145deg, #1e2b36, #101820 75%);
+}
+
+.benefits-mark {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  margin-bottom: 34px;
+  border: 1px solid rgb(255 255 255 / 38%);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.account-benefits .eyebrow {
+  color: #ff7889;
+}
+
+.account-benefits h2 {
+  max-width: 270px;
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+}
+
+.account-benefits > p:not(.eyebrow) {
+  margin: 16px 0 20px;
+  color: #c6cfd6;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.account-benefits ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-benefits li {
+  position: relative;
+  padding-left: 23px;
+  color: #edf1f4;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.account-benefits li::before {
+  position: absolute;
+  left: 0;
+  color: #ff7889;
+  content: "✓";
+  font-weight: 800;
+}
+
+.account-note {
+  max-width: 500px;
+  margin: 16px 0 0;
+  color: #68747e;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .account-page {
+    justify-content: flex-start;
+    padding: 22px 14px;
+  }
+
+  .brand {
+    margin-bottom: 16px;
+  }
+
+  .brand img {
+    width: 92px;
+    height: 58px;
+  }
+
+  .account-card {
+    width: min(480px, 100%);
+    min-height: 0;
+    grid-template-areas:
+      "main"
+      "benefits";
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .account-main {
+    padding: 32px 24px;
+  }
+
+  .account-benefits {
+    padding: 28px 24px;
+  }
+
+  .benefits-mark {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .account-main {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .name-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

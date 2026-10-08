@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#092e5b">
+    <title>Book a Service | DriveCore</title>
+    <link rel="stylesheet" href="member.css"><script src="drivecore-store.js" defer></script><script src="member.js" defer></script>
+</head>
+<body data-page="booking">
+    <div id="member-shell"></div>
+    <main class="member-main" id="main-content">
+        <div class="page-heading"><div><p class="eyebrow">Online ordering / step 04</p><h1>Care, on your terms.</h1><p>Choose delivery, installation or towing and save a service request.</p></div></div>
+        <div id="workflow-navigation"></div><div id="page-notice" class="notice" role="status" tabindex="-1" hidden></div>
+        <div class="dashboard-grid">
+            <section class="panel"><h2>Book a service</h2><p class="muted">Local demo requests only. No availability check, provider dispatch or payment is performed.</p>
+                <form id="booking-form">
+                    <fieldset><legend>Choose your service</legend><div class="service-options">
+                        <label class="service-option"><input type="radio" name="service" value="User DIY Delivery Service" checked required><span>User DIY Delivery Service<small>Parts delivered for you to install.</small></span></label>
+                        <label class="service-option"><input type="radio" name="service" value="Home Installation Service"><span>Home Installation Service<small>Request installation at your address.</small></span></label>
+                        <label class="service-option"><input type="radio" name="service" value="Hub Installation Service"><span>Hub Installation Service<small>Request an appointment at a service hub.</small></span></label>
+                        <label class="service-option"><input type="radio" name="service" value="Towing Service"><span>Towing Service<small>Request planned vehicle transport.</small></span></label>
+                    </div></fieldset>
+                    <div class="form-grid">
+                        <div class="field"><label for="booking-car">Vehicle</label><select id="booking-car" name="carId" required></select><small><a href="userMemberPage.html">Add or edit a vehicle in your garage</a></small></div>
+                        <div class="field"><label for="booking-order">Related purchase order (optional)</label><select id="booking-order" name="orderId"></select></div>
+                        <div class="field"><label for="booking-date">Requested date</label><input id="booking-date" name="date" type="date" required></div>
+                        <div class="field"><label for="booking-time">Requested time</label><input id="booking-time" name="time" type="time" required></div>
+                        <div class="field"><label for="booking-name">Full name</label><input id="booking-name" name="name" autocomplete="name" maxlength="120" required></div>
+                        <div class="field"><label for="booking-phone">Phone</label><input id="booking-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required></div>
+                        <div class="field full"><label for="booking-email">Email</label><input id="booking-email" name="email" type="email" autocomplete="email" maxlength="200" required></div>
+                        <div class="field full"><label for="booking-address" id="booking-address-label">Delivery address</label><textarea id="booking-address" name="address" autocomplete="street-address" maxlength="1000" required></textarea><small id="booking-location-help">Enter the full delivery address.</small></div>
+                        <div class="field full"><label for="booking-notes" id="booking-notes-label">Instructions (optional)</label><textarea id="booking-notes" name="notes" maxlength="2000"></textarea></div>
+                        <div class="field full"><label class="checkbox-field"><input type="checkbox" name="acknowledge" required><span>I understand this request is stored only in this browser and is not a confirmed appointment.</span></label></div>
+                    </div>
+                    <div class="actions"><button class="primary" type="submit" id="booking-submit">Save demo service request</button><a class="button secondary" href="userMemberPage.html">Back to garage</a></div>
+                </form>
+            </section>
+            <aside class="side-stack"><section class="panel"><h2>Service information</h2><p id="booking-service-description" class="muted"></p><div class="record"><strong>Need urgent towing?</strong><p>This demo does not dispatch recovery vehicles. Contact a local recovery provider directly; use emergency services if you are in immediate danger.</p></div></section><section class="panel"><h2>Your service requests</h2><div id="booking-records" class="records"></div></section></aside>
+        </div>
+    </main>
+    <footer class="member-footer">DriveCore members · Your drive. Our core.</footer>
+</body>
+</html>

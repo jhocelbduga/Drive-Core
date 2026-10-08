@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#092e5b">
+    <title>My Garage | DriveCore Members</title>
+    <link rel="stylesheet" href="member.css">
+    <script src="drivecore-store.js" defer></script>
+    <script src="member.js" defer></script>
+</head>
+<body data-page="member">
+    <div id="member-shell"></div>
+    <main class="member-main" id="main-content">
+        <div class="page-heading">
+            <div><p class="eyebrow">Your drive. Your space.</p><h1>Welcome to your garage.</h1><p>Manage your car, stay ahead of maintenance and get ready for your next journey.</p></div>
+            <a class="button" href="CartItem.html">Shop parts &amp; accessories</a>
+        </div>
+        <div id="page-notice" class="notice" role="status" tabindex="-1" hidden></div>
+        <div class="dashboard-grid">
+            <section class="panel" aria-labelledby="garage-title">
+                <div class="panel-title"><h2 id="garage-title">My Car Selector</h2><span class="badge">Your garage</span></div>
+                <label for="car-selector">Selected vehicle</label>
+                <div class="car-select-row"><select id="car-selector"></select><button class="secondary" type="button" id="new-car">Add car</button></div>
+                <div class="car-summary">
+                    <div class="car-symbol" aria-hidden="true"><svg viewBox="0 0 32 24"><path d="m7 8 3-6h12l3 6M4 9h24v10H4zM8 19v3m16-3v3M7 13h4m10 0h4"></path></svg></div>
+                    <div><strong id="car-summary-name">Your next journey starts here</strong><p id="car-summary-detail">Add your first car to track its health and maintenance.</p></div>
+                </div>
+                <div class="tabs" role="tablist" aria-label="My car sections">
+                    <button type="button" id="details-tab" role="tab" aria-selected="true" aria-controls="details-panel" data-tab="details">Details</button>
+                    <button type="button" id="history-tab" role="tab" aria-selected="false" aria-controls="history-panel" tabindex="-1" data-tab="history">History</button>
+                    <button type="button" id="pms-tab" role="tab" aria-selected="false" aria-controls="pms-panel" tabindex="-1" data-tab="pms">Schedule PMS</button>
+                </div>
+                <section id="details-panel" role="tabpanel" aria-labelledby="details-tab">
+                    <h3 id="car-form-title">Add your car details</h3>
+                    <p class="muted">Mileage is recorded in kilometres. Updating it also refreshes PMS alerts.</p>
+                    <form id="car-form" class="form-grid">
+                        <div class="field"><label for="car-name">Car nickname</label><input id="car-name" name="name" placeholder="e.g. My daily driver" maxlength="60" required></div>
+                        <div class="field"><label for="car-registration">Registration / plate</label><input id="car-registration" name="registration" maxlength="20" required></div>
+                        <div class="field"><label for="car-make">Make</label><input id="car-make" name="make" placeholder="e.g. Toyota" maxlength="60" required></div>
+                        <div class="field"><label for="car-model">Model</label><input id="car-model" name="model" placeholder="e.g. Corolla" maxlength="60" required></div>
+                        <div class="field"><label for="car-year">Model year</label><input id="car-year" name="year" type="number" min="1900" max="2100" step="1" required></div>
+                        <div class="field"><label for="car-mileage">Current odometer (km)</label><input id="car-mileage" name="mileage" type="number" min="0" max="9999999" step="1" required></div>
+                        <div class="field"><label for="car-fuel">Power / fuel</label><select id="car-fuel" name="fuel"><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>LPG</option></select></div>
+                        <div class="field"><label for="car-vin">VIN (optional)</label><input id="car-vin" name="vin" maxlength="17" pattern="[A-HJ-NPR-Za-hj-npr-z0-9]{17}" placeholder="17 characters"></div>
+                        <div class="field full"><div class="actions"><button class="primary" type="submit">Save car details</button><button class="secondary" type="button" id="cancel-car" hidden>Cancel</button></div></div>
+                    </form>
+                </section>
+                <section id="history-panel" role="tabpanel" aria-labelledby="history-tab" hidden>
+                    <h3>OBD scan history</h3><p class="muted">Manually log a scan from your OBD reader. This demo does not connect to a scanner or diagnose faults.</p>
+                    <form id="scan-form" class="form-grid">
+                        <div class="field"><label for="scan-date">Scan date</label><input id="scan-date" name="date" type="date" required></div>
+                        <div class="field"><label for="scan-mileage">Odometer at scan (km)</label><input id="scan-mileage" name="mileage" type="number" min="0" max="9999999" step="1" required></div>
+                        <div class="field full"><label for="scan-codes">Fault codes (optional)</label><input id="scan-codes" name="codes" placeholder="e.g. P0300, P0420; leave blank for no codes" maxlength="200"></div>
+                        <div class="field full"><label for="scan-notes">Scan findings / notes</label><textarea id="scan-notes" name="notes" maxlength="2000" required></textarea></div>
+                        <div class="field full"><button class="primary" type="submit">Save scan log</button></div>
+                    </form>
+                    <div class="records" id="scan-records"></div>
+                </section>
+                <section id="pms-panel" role="tabpanel" aria-labelledby="pms-tab" hidden>
+                    <h3>Preventive maintenance schedule</h3><p class="muted">Track planned and completed PMS. Due alerts appear within 30 days or 500 km.</p>
+                    <form id="pms-form" class="form-grid">
+                        <div class="field"><label for="pms-service">Maintenance / service</label><input id="pms-service" name="service" placeholder="e.g. Oil &amp; filter change" maxlength="120" required></div>
+                        <div class="field"><label for="pms-status">Record type</label><select id="pms-status" name="status"><option value="scheduled">Upcoming maintenance</option><option value="completed">Completed maintenance</option></select></div>
+                        <div class="field"><label for="pms-date">Due date / completion date</label><input id="pms-date" name="date" type="date" required></div>
+                        <div class="field"><label for="pms-mileage">Due / completed odometer (km, optional)</label><input id="pms-mileage" name="mileage" type="number" min="0" max="9999999" step="1"></div>
+                        <div class="field full"><label for="pms-notes">Notes (optional)</label><textarea id="pms-notes" name="notes" maxlength="2000"></textarea></div>
+                        <div class="field full"><button class="primary" type="submit">Save maintenance record</button></div>
+                    </form>
+                    <h3 class="actions">Upcoming &amp; scheduled</h3><div class="records" id="pms-upcoming"></div>
+                    <h3 class="actions">Completed history</h3><div class="records" id="pms-history"></div>
+                </section>
+            </section>
+            <aside class="side-stack">
+                <section class="panel"><p class="eyebrow">A little care goes a long way</p><h2>Maintenance alerts</h2><div id="maintenance-alerts" class="records"></div><small>Alerts use your saved odometer and dates. No background notifications are sent.</small></section>
+                <section class="panel"><p class="eyebrow">Parts to your door. Care on your terms.</p><h2>Online ordering</h2><nav class="flow-links" aria-label="Ordering process"><a href="CartItem.html"><span>1</span>Order card / cart</a><a href="rfqForm.html"><span>2</span>Request a quotation</a><a href="salesInvoice.html"><span>3</span>Confirm purchase order</a><a href="bookingservice.html"><span>4</span>Book a service</a></nav></section>
+                <section class="panel"><h2>Orders &amp; bookings</h2><div class="records" id="member-activity"></div></section>
+            </aside>
+        </div>
+        <section class="panel" aria-labelledby="member-catalogue-title"><p class="eyebrow">Ready for your next job?</p><h2 id="member-catalogue-title">Add an item to your cart</h2><p class="muted">Demo products and prices. Vehicle compatibility is not verified.</p><div class="catalogue" id="member-catalogue"></div></section>
+    </main>
+    <footer class="member-footer">DriveCore members · Your drive. Our core.</footer>
+</body>
+</html>

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: drivecore-hub-admin
+    runtime: node
+    plan: starter
+    region: singapore
+    branch: main
+    buildCommand: npm test
+    startCommand: npm start
+    healthCheckPath: /api/health
+    disk:
+      name: drivecore-hub-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.20.0
+      - key: HUB_HOST
+        value: 0.0.0.0
+      - key: HUB_DB
+        value: /var/data/hub.sqlite
+      - key: HUB_ADMIN_EMAIL
+        sync: false
+      - key: HUB_ADMIN_PASSWORD
+        sync: false

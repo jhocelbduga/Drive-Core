@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#092e5b">
+    <title>Order Card &amp; Cart | DriveCore</title>
+    <link rel="stylesheet" href="member.css"><script src="drivecore-store.js" defer></script><script src="member.js" defer></script>
+</head>
+<body data-page="cart">
+    <div id="member-shell"></div>
+    <main class="member-main" id="main-content">
+        <div class="page-heading"><div><p class="eyebrow">Online ordering / step 01</p><h1>Your order card.</h1><p>Choose your items, review quantities and request a quotation.</p></div><a href="userMemberPage.html" class="button secondary">Back to my garage</a></div>
+        <div id="workflow-navigation"></div>
+        <div id="page-notice" class="notice" role="status" tabindex="-1" hidden></div>
+        <div class="dashboard-grid">
+            <section class="panel"><div class="panel-title"><h2>Shopping cart</h2><span class="badge" id="cart-item-count">0 items</span></div><div id="cart-items"></div><div class="actions"><a class="button" id="cart-next" href="rfqForm.html">Request a quotation</a></div></section>
+            <aside class="panel"><h2>Order summary</h2><div id="cart-summary"></div><small>Prices are illustrative GBP amounts. Delivery, installation and taxes are not calculated; no payment is taken.</small></aside>
+        </div>
+        <section class="panel"><p class="eyebrow">Everyday essentials</p><h2>Add to your order</h2><p class="muted">Demo products only. Check fitment with a qualified supplier before purchasing.</p><div class="catalogue" id="member-catalogue"></div></section>
+    </main>
+    <footer class="member-footer">DriveCore members · Your drive. Our core.</footer>
+</body>
+</html>

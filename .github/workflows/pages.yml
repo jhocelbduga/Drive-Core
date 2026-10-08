@@ -1,0 +1,64 @@
+name: Deploy DriveCore to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate JavaScript
+        run: |
+          node --check drivecore-store.js
+          node --check member.js
+          node --check index.js
+          node --check SignInForm.js
+          node --check owner-data.js
+          node --check owner-export.js
+          node --check owner-dashboard.js
+          node --check hub-admin.js
+          node --check hub-server/server.js
+          node --check hub-server/operations.js
+          node --check hub-server/database.js
+          node --test drivecore-store.test.js owner-data.test.js hub-server/hub.test.js
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare static site
+        run: |
+          mkdir _site
+          cp ./*.html ./*.css index.js member.js drivecore-store.js SignInForm.js owner-data.js owner-export.js owner-dashboard.js hub-admin.js _site/
+          cp -R images _site/images
+          touch _site/.nojekyll
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: validate-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

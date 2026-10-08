@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#092e5b">
+    <title>Request a Quotation | DriveCore</title>
+    <link rel="stylesheet" href="member.css"><script src="drivecore-store.js" defer></script><script src="member.js" defer></script>
+</head>
+<body data-page="rfq">
+    <div id="member-shell"></div>
+    <main class="member-main" id="main-content">
+        <div class="page-heading"><div><p class="eyebrow">Online ordering / step 02</p><h1>Request a quotation.</h1><p>Keep your requirements and contact details with a snapshot of your cart.</p></div></div>
+        <div id="workflow-navigation"></div><div id="page-notice" class="notice" role="status" tabindex="-1" hidden></div>
+        <div class="dashboard-grid">
+            <section class="panel"><h2>Your request</h2><p class="muted">This saves a local demo RFQ only. No request is sent to a supplier.</p>
+                <form id="rfq-form">
+                    <fieldset><legend>Contact &amp; delivery details</legend><div class="form-grid">
+                        <div class="field"><label for="rfq-name">Full name</label><input id="rfq-name" name="name" autocomplete="name" maxlength="120" required></div>
+                        <div class="field"><label for="rfq-email">Email</label><input id="rfq-email" name="email" type="email" autocomplete="email" maxlength="200" required></div>
+                        <div class="field full"><label for="rfq-phone">Phone</label><input id="rfq-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" required></div>
+                        <div class="field full"><label for="rfq-address">Delivery address</label><textarea id="rfq-address" name="address" autocomplete="street-address" maxlength="1000" required></textarea></div>
+                    </div></fieldset>
+                    <div class="field"><label for="rfq-notes">Requirements / fitment notes (optional)</label><textarea id="rfq-notes" name="notes" maxlength="2000" placeholder="Vehicle details, preferred brands or special requirements"></textarea></div>
+                    <div class="actions"><a class="button secondary" href="CartItem.html">Edit cart</a><button class="primary" id="rfq-submit" type="submit">Save demo RFQ &amp; review order</button></div>
+                </form>
+            </section>
+            <aside class="panel"><h2>Items to quote</h2><div id="rfq-summary"></div><small>Item subtotal only. A real supplier must validate prices, stock, fitment and any additional charges.</small></aside>
+        </div>
+    </main>
+    <footer class="member-footer">DriveCore members · Your drive. Our core.</footer>
+</body>
+</html>
